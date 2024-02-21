@@ -1,0 +1,1 @@
+player1 = input("whats your name")
