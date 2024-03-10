@@ -1,7 +1,7 @@
-
-
-def check_guess(guess, answer_list, buzzer):
+def check_guess(guess, answer_list, buzzer, game_board):
   """Checks if player guess is in the answer list and returns how many points gained if any"""
+  
+  
   if guess in game_board:
     print("you already guessed this")
 
@@ -22,10 +22,12 @@ def score_card():
   print(f"{player1}: points: {score} X's: {buzzer}")
   print(game_board)
 
-def add_points(score, guess):
+
+def add_points(guess):
   points = answer_list[guess]
-  score += points
-  return score
+  return points
+
+
 
 question = "name something associated with vampires ".title()
 answer_list = {
@@ -35,32 +37,40 @@ answer_list = {
     "garlic": 9,
     "bat": 7,
     "cape": 7,
-    "Dracula": 5,
-    "Fangs": 4,
-    "Halloween": 4
+    "dracula": 5,
+    "fangs": 4,
+    "halloween": 4
 }
 answer_list_length = len(answer_list)
 
+
+
+end_of_game = False
 score = 0
 buzzer = 0
-end_of_game = False
-
 game_board = {str(i + 1): '_' for i in range(len(answer_list))}
 
 player1 = "Damian"
-print(
-    f"Round one with {answer_list_length} answers on the board \n{game_board} the question is: "
-)
+def game():
+  global end_of_game
+  global score 
+  global buzzer 
+  print(
+      f"Round one with {answer_list_length} answers on the board \n{game_board} the question is: "
+  )
+  
+  while not end_of_game:
+  
+    guess = input(question)
+    buzzer = check_guess(guess, answer_list, buzzer, game_board)
+    if guess in answer_list:
+      score += add_points(guess)
+    score_card()
+    if buzzer == 3:
+      end_of_game = True
+  
+  print(f"GAME OVER you ended with {score} points ")
+  print(answer_list)
 
-while not end_of_game:
 
-  guess = input(question)
-  buzzer = check_guess(guess, answer_list, buzzer)
-  if guess in answer_list:
-    score = add_points(score, guess)
-  score_card()
-  if buzzer == 3:
-    end_of_game = True
-
-print(f"GAME OVER you ended with {score} points ")
-print(answer_list)
+game()
